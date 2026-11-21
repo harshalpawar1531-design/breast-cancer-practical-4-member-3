@@ -1,0 +1,61 @@
+schema: '2.0'
+stages:
+  collect:
+    cmd: python src/pipeline/collect.py
+    deps:
+    - path: data/raw/breast_cancer.csv
+      hash: md5
+      md5: 8d837c7cf252fe6be42d87bccb729837
+      size: 126584
+    - path: src/pipeline/collect.py
+      hash: md5
+      md5: 331db41ec26d7f1d822a90056be59e10
+      size: 304
+    outs:
+    - path: data/raw/breast_cancer_raw.csv
+      hash: md5
+      md5: dd2bbf4714b0ff59ebd8d4a59437ee0c
+      size: 141960
+  preprocess:
+    cmd: python src/pipeline/preprocess.py
+    deps:
+    - path: data/raw/breast_cancer_raw.csv
+      hash: md5
+      md5: dd2bbf4714b0ff59ebd8d4a59437ee0c
+      size: 141960
+    - path: src/pipeline/preprocess.py
+      hash: md5
+      md5: cf1e3e03b7d918ca7c33ddfc212e61d0
+      size: 551
+    outs:
+    - path: data/processed/breast_cancer_preprocessed.csv
+      hash: md5
+      md5: 8d837c7cf252fe6be42d87bccb729837
+      size: 126584
+  features:
+    cmd: python src/pipeline/features.py
+    deps:
+    - path: data/processed/breast_cancer_preprocessed.csv
+      hash: md5
+      md5: 8d837c7cf252fe6be42d87bccb729837
+      size: 126584
+    - path: src/pipeline/features.py
+      hash: md5
+      md5: 88d3c581c1609c1221e3f6febcf05365
+      size: 439
+    outs:
+    - path: data/processed/breast_cancer_features.csv
+      hash: md5
+      md5: d76dce3a3cfdd5861035884a42087667
+      size: 148530
+  validate:
+    cmd: python src/pipeline/validate.py
+    deps:
+    - path: data/processed/breast_cancer_features.csv
+      hash: md5
+      md5: d76dce3a3cfdd5861035884a42087667
+      size: 148530
+    - path: src/pipeline/validate.py
+      hash: md5
+      md5: d1cf64257d45696eed83510bea924f90
+      size: 805
